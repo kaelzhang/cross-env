@@ -10,7 +10,7 @@ Run scripts that set and use environment variables across platforms
 [![Travis Build Status][build-badge]][build]
 [![AppVeyor Build Status][win-build-badge]][win-build]
 [![Code Coverage][coverage-badge]][coverage]
-[![Dependencies][dependencyci-badge]][dependencyci]
+<!-- [![Dependencies][dependencyci-badge]][dependencyci]
 [![version][version-badge]][package]
 [![node-version][node-version-badge]][node]
 [![downloads][downloads-badge]][npm-stat]
@@ -25,7 +25,24 @@ Run scripts that set and use environment variables across platforms
 
 [![Watch on GitHub][github-watch-badge]][github-watch]
 [![Star on GitHub][github-star-badge]][github-star]
-[![Tweet][twitter-badge]][twitter]
+[![Tweet][twitter-badge]][twitter] -->
+
+`@ostai/cross-env`, a fork of [cross-env](https://github.com/kentcdodds/cross-env), supports to use a `.cross-env.js` to globally modify environment variables.
+
+.cross-env.js:
+
+```js
+module.exports = {
+  env (env) {
+    return {
+      ...env,
+      PATH: `/path/to/new/search/dir:${env.PATH}`
+    }
+  }
+}
+```
+
+****
 
 ## The problem
 
@@ -48,7 +65,7 @@ This module is distributed via [npm][npm] which is bundled with [node][node] and
 should be installed as one of your project's `devDependencies`:
 
 ```
-npm install --save-dev cross-env
+npm i -D @ostai/cross-env
 ```
 
 > WARNING! Make sure that when you're installing packages that you spell things
@@ -120,7 +137,7 @@ variable to be set across an entire inline shell script, rather than just one
 command.
 
 For example, if you want to have the environment variable apply to several
-commands in series then you will need to wrap those in quotes and use 
+commands in series then you will need to wrap those in quotes and use
 `cross-env-shell` instead of `cross-env`.
 
 ```json
@@ -172,12 +189,14 @@ MIT
 
 [npm]: https://www.npmjs.com/
 [node]: https://nodejs.org
-[build-badge]: https://img.shields.io/travis/kentcdodds/cross-env.svg?style=flat-square
-[build]: https://travis-ci.org/kentcdodds/cross-env
-[win-build-badge]: https://img.shields.io/appveyor/ci/kentcdodds/cross-env.svg?style=flat-square
-[win-build]: https://ci.appveyor.com/project/kentcdodds/cross-env
-[coverage-badge]: https://img.shields.io/codecov/c/github/kentcdodds/cross-env.svg?style=flat-square
-[coverage]: https://codecov.io/github/kentcdodds/cross-env
+[build-badge]: https://img.shields.io/travis/kaelzhang/cross-env.svg?style=flat-square
+[build]: https://travis-ci.org/kaelzhang/cross-env
+[win-build-badge]: https://img.shields.io/appveyor/ci/kaelzhang/cross-env.svg?style=flat-square
+[win-build]: https://ci.appveyor.com/project/kaelzhang/cross-env
+[coverage-badge]: https://img.shields.io/codecov/c/github/kaelzhang/cross-env.svg?style=flat-square
+[coverage]: https://codecov.io/github/kaelzhang/cross-env
+
+
 [dependencyci-badge]: https://dependencyci.com/github/kentcdodds/cross-env/badge?style=flat-square
 [dependencyci]: https://dependencyci.com/github/kentcdodds/cross-env
 [version-badge]: https://img.shields.io/npm/v/cross-env.svg?style=flat-square

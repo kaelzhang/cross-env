@@ -1,12 +1,37 @@
+import {join} from 'path'
 import crossSpawnMock from 'cross-spawn'
 import isWindowsMock from 'is-windows'
 
 const crossEnv = require('../')
 
-process.setMaxListeners(20)
+process.setMaxListeners(21)
+process.chdir(join(__dirname, 'fixtures'))
 
 beforeEach(() => {
   crossSpawnMock.__mock.reset()
+})
+
+const assignEnv = (...args) =>
+  Object.assign(
+    {
+      FROM_CROSS_ENV_JS: 'true',
+    },
+    ...args,
+  )
+
+// @ostai/cross-env
+it(`should contains environment variables from .cross-env.js`, () => {
+  testEnvSetting(
+    {
+      FOO_ENV: 'production',
+      FROM_CROSS_ENV_JS: 'true',
+    },
+    'FOO_ENV=production',
+  )
+})
+
+it(`should set environment variables and run the remaining command`, () => {
+  testEnvSetting({FOO_ENV: 'production'}, 'FOO_ENV=production')
 })
 
 it(`should set environment variables and run the remaining command`, () => {
@@ -68,7 +93,7 @@ it(`should handle quoted scripts`, () => {
     {
       stdio: 'inherit',
       shell: true,
-      env: Object.assign({}, process.env, {
+      env: assignEnv(process.env, {
         GREETING: 'Hi',
         NAME: 'Joe',
       }),
@@ -90,7 +115,7 @@ it(`should handle escaped characters`, () => {
     {
       stdio: 'inherit',
       shell: true,
-      env: Object.assign({}, process.env, {
+      env: assignEnv(process.env, {
         GREETING: 'Hi',
         NAME: 'Joe',
       }),
@@ -108,7 +133,7 @@ it(`should normalize command on windows`, () => {
   crossEnv(['./cmd.bat'])
   expect(crossSpawnMock.spawn).toHaveBeenCalledWith('cmd.bat', [], {
     stdio: 'inherit',
-    env: Object.assign({}, process.env),
+    env: assignEnv(process.env),
   })
   isWindowsMock.__mock.reset()
 })
@@ -121,7 +146,7 @@ it(`should not normalize command arguments on windows`, () => {
     ['http://example.com'],
     {
       stdio: 'inherit',
-      env: Object.assign({}, process.env),
+      env: assignEnv(process.env),
     },
   )
   isWindowsMock.__mock.reset()
@@ -176,7 +201,7 @@ it(`should keep backslashes`, () => {
     ['\\\\someshare\\somefolder'],
     {
       stdio: 'inherit',
-      env: Object.assign({}, process.env),
+      env: assignEnv(process.env),
     },
   )
   isWindowsMock.__mock.reset()
@@ -203,7 +228,7 @@ function testEnvSetting(expected, ...envSettings) {
   expect(crossSpawnMock.spawn).toHaveBeenCalledWith('echo', ['hello world'], {
     stdio: 'inherit',
     shell: undefined,
-    env: Object.assign({}, process.env, env),
+    env: assignEnv(process.env, env),
   })
 
   expect(crossSpawnMock.__mock.spawned.on).toHaveBeenCalledTimes(1)

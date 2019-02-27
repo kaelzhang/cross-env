@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import {spawn} from 'cross-spawn'
 import commandConvert from './command'
 import varValueConvert from './variable'
@@ -83,6 +85,17 @@ function parseCommand(args) {
   return [envSetters, command, commandArgs]
 }
 
+function exists(file) {
+  try {
+    fs.accessSync(file, fs.constants.R_OK)
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+const CONFIG_FILE_NAME = '.cross-env.js'
+
 function getEnvVars(envSetters) {
   const envVars = Object.assign({}, process.env)
   if (process.env.APPDATA) {
@@ -91,5 +104,13 @@ function getEnvVars(envSetters) {
   Object.keys(envSetters).forEach(varName => {
     envVars[varName] = varValueConvert(envSetters[varName], varName)
   })
-  return envVars
+
+  const cwd = process.cwd()
+  const configFile = path.join(cwd, CONFIG_FILE_NAME)
+
+  if (!exists(configFile)) {
+    return envVars
+  }
+
+  return require(configFile).env(envVars)
 }
