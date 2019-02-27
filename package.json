@@ -1,6 +1,6 @@
 {
   "name": "@ostai/cross-env",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Run scripts that set and use environment variables across platforms",
   "main": "dist/index.js",
   "bin": {

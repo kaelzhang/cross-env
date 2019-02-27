@@ -1,5 +1,5 @@
 <div align="center">
-<h1>cross-env 🔀</h1>
+<h1>@ostai/cross-env 🔀</h1>
 
 Run scripts that set and use environment variables across platforms
 
