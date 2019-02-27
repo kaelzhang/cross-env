@@ -112,5 +112,6 @@ function getEnvVars(envSetters) {
     return envVars
   }
 
+  /* eslint-disable import/no-dynamic-require */
   return require(configFile).env(envVars)
 }
