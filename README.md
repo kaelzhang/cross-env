@@ -27,7 +27,7 @@ Run scripts that set and use environment variables across platforms
 [![Star on GitHub][github-star-badge]][github-star]
 [![Tweet][twitter-badge]][twitter] -->
 
-`@ostai/cross-env`, a fork of [cross-env](https://github.com/kentcdodds/cross-env), supports to use a `.cross-env.js` to globally modify environment variables.
+**`@ostai/cross-env`**, a **FORK** of [cross-env](https://github.com/kentcdodds/cross-env), supports to use a `.cross-env.js` to globally modify environment variables.
 
 .cross-env.js:
 
